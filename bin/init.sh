@@ -1,3 +1,5 @@
+#!/bin/bash
+
 root=$(cd "$(dirname "$0")"; cd ..; pwd)
 cd $root
 
@@ -9,7 +11,9 @@ mk_dirs=(
     application/views/layout
     application/views_compile
     build
-    logs
+    storage/logs
+    storage/cache
+    storage/session
 )
 
 # 创建目录并设定权限
@@ -22,3 +26,4 @@ done
 
 # 清空视图缓存文件
 rm -f application/cache/*
+rm -f storage/cache/*
