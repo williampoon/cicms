@@ -1,8 +1,5 @@
 <?php
 
-require 'ApiController.php';
-require 'CliController.php';
-
 /**
  * 封装CI_Controller
  */

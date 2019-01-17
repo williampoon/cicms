@@ -1,10 +1,12 @@
 <?php
 
+require_once APPCORE_PATH . 'ApiController.php';
+
 class Auth extends ApiController
 {
     public function login()
     {
-        $this->returnSuccess([
+        return $this->success([
             'token' => 'aaa',
             'menus' => [
                 'path'      => '/auth',

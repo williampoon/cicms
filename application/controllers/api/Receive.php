@@ -1,5 +1,7 @@
 <?php
 
+require_once APPCORE_PATH . 'ApiController.php';
+
 class Receive extends ApiController
 {
     public function index()
@@ -12,7 +14,6 @@ class Receive extends ApiController
             $this->error('请设置正确的密钥');
         }
         $this->error(1);
-        // $this->error(2);
         $allow_projects = load_config('upload.server.allow_projects');
         if (!is_string($project) || !in_array($project, $allow_projects)) {
             $this->error('请指定一个允许上传的项目名');
@@ -21,7 +22,7 @@ class Receive extends ApiController
 
     public function test()
     {
-        sleep(2);
+        // sleep(2);
         $this->success(['test' => 'success']);
     }
 }

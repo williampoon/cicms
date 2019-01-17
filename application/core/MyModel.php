@@ -179,9 +179,7 @@ class MyModel extends CI_Model
      */
     public function __call($method, $arguments)
     {
-        call_user_func_array([$this->db, $method], $arguments);
-
-        return $this;
+        return call_user_func_array([$this->db, $method], $arguments);
     }
 
     /**
