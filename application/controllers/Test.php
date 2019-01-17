@@ -16,7 +16,7 @@ class Test extends MyController
 
     public function getUser()
     {
-        $this->success(['name' => 'Peter', 'age' => 28]);
+        return $this->ajaxSuccess(['name' => 'Peter', 'age' => 28]);
     }
 
     public function check()

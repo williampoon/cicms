@@ -22,7 +22,7 @@ class System extends MyController
 
         $result = $this->system->orderBy('id desc')->dt_paginate($limit, $offset, $draw);
 
-        $this->ajaxReturn($result);
+        return $this->ajaxSuccess($result);
     }
 
     public function add()
@@ -30,18 +30,18 @@ class System extends MyController
         $name = trim($this->post('name'));
         $url  = trim($this->post('addr'));
         if (!$name || !$url) {
-            $this->error('请填写系统名称和地址');
+            return $this->ajaxError('请填写系统名称和地址');
         }
 
         if ($this->system->where('name', $name)->or_where('url', $url)->fetchOne()) {
-            $this->error('该名称或地址已存在');
+            return $this->ajaxError('该名称或地址已存在');
         }
 
         if (!$this->system->insert(['name' => $name, 'url' => $url])) {
-            $this->error('新增失败');
+            return $this->ajaxError('新增失败');
         }
 
-        $this->success();
+        return $this->ajaxSuccess();
     }
 
     public function update()
@@ -50,21 +50,21 @@ class System extends MyController
         $name = trim($this->post('name'));
         $url  = trim($this->post('addr'));
         if (!$id) {
-            $this->error('参数错误');
+            return $this->ajaxError('参数错误');
         }
         if (!$name || !$url) {
-            $this->error('请填写系统名称和地址');
+            return $this->ajaxError('请填写系统名称和地址');
         }
 
         $system = $this->system->where('id', $id)->fetchOne();
         if (!$system) {
-            $this->error('该系统不存在');
+            return $this->ajaxError('该系统不存在');
         }
 
         if ($this->system->where('id !=', $id)
             ->group_start()->where('name', $name)->or_where('url', $url)->group_end()
             ->fetchOne()) {
-            $this->error('该名称或地址已存在');
+            return $this->ajaxError('该名称或地址已存在');
         }
 
         $update = [];
@@ -76,14 +76,14 @@ class System extends MyController
         }
         // 没有修改就直接返回
         if (!$update) {
-            $this->success();
+            return $this->ajaxSuccess();
         }
 
         if (!$this->system->where('id', $id)->update($update)) {
-            $this->error('新增失败');
+            return $this->ajaxError('新增失败');
         }
 
-        $this->success();
+        return $this->ajaxSuccess();
     }
 
     public function delete()
@@ -91,9 +91,9 @@ class System extends MyController
         $id = intval($this->post('id'));
 
         if ($this->system->delete(['id' => $id])) {
-            $this->error('删除失败');
+            return $this->ajaxError('删除失败');
         }
 
-        $this->success();
+        return $this->ajaxSuccess();
     }
 }

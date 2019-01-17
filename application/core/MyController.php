@@ -28,7 +28,7 @@ class MyController extends CI_Controller
         // $this->output->cache(10);
 
         // $data = model('NodeModel')->fetchAll();
-        
+
         // var_dump($nodes);exit;
 
         /*$this->load->library('MySession');
@@ -177,7 +177,7 @@ class MyController extends CI_Controller
      * @param  string   $message 消息
      * @param  integer  $code    业务状态码
      */
-    protected function success($data = [], $message = '', $code = self::SUCCESS_CODE)
+    protected function ajaxSuccess($data = [], $message = '', $code = self::SUCCESS_CODE)
     {
         $this->ajaxReturn([
             'code'      => $code,
@@ -194,7 +194,7 @@ class MyController extends CI_Controller
      * @param  integer  $code    业务状态码
      * @param  array    $data    数据
      */
-    protected function error($message = '', $code = self::ERROR_CODE, $data = [])
+    protected function ajaxError($message = '', $code = self::ERROR_CODE, $data = [])
     {
         $this->ajaxReturn([
             'code'      => $code,

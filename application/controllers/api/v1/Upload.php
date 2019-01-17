@@ -6,7 +6,7 @@ class Upload extends ApiController
     {
         $token = $this->post('token');
         if (!$token) {
-            return $this->error('参数错误');
+            return $this->ajaxError('参数错误');
         }
 
         $logic = logic('Upload');
@@ -19,15 +19,15 @@ class Upload extends ApiController
         $app_secret = $this->get('app_secret');
 
         if (!$app_id || !$app_secret) {
-            return $this->error('参数错误');
+            return $this->ajaxError('参数错误');
         }
         $model = model('System');
         $row   = $model->where('app_id', $app_id)->where('app_secret', $app_secret)->fetchOne();
         if (!$row) {
-            return $this->error('未授权系统');
+            return $this->ajaxError('未授权系统');
         }
         if (!$row['slots']) {
-            return $this->error('未分配槽点');
+            return $this->ajaxError('未分配槽点');
         }
 
         $slots      = explode('|', $row['slots']);
@@ -48,6 +48,6 @@ class Upload extends ApiController
             'upload_url' => $upload_url,
         ];
 
-        $this->success($res);
+        return $this->ajaxSuccess($res);
     }
 }

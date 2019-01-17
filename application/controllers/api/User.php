@@ -24,7 +24,7 @@ class User extends ApiController
             'data'  => $data,
         ];
 
-        $this->success($res);
+        return $this->ajaxSuccess($res);
     }
 
     public function create() {}

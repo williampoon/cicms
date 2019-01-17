@@ -11,7 +11,7 @@ class Admin extends MyController
             'php'      => exec('php-fpm -v|head -1'),
         ];
 
-        $this->display([
+        return $this->display([
             'info' => $info,
         ]);
     }
@@ -27,7 +27,7 @@ class Admin extends MyController
         $account  = $this->post('account');
         $password = $this->post('password');
         if (!$account || !$password) {
-            return $this->error('请填写用户名和密码');
+            return $this->ajaxError('请填写用户名和密码');
         }
 
         // 校验用户
@@ -39,20 +39,20 @@ class Admin extends MyController
         }
         $user = $model->fetchOne();
         if (!$user || $user['passwd'] != md5($password)) {
-            return $this->error('用户名或密码错误');
+            return $this->ajaxError('用户名或密码错误');
         }
 
         // 保存session
         $_SESSION['uid'] = $user['id'];
 
-        return $this->success();
+        return $this->ajaxSuccess();
     }
 
     public function logout()
     {
         unset($_SESSION['uid']);
 
-        return $this->success();
+        return $this->ajaxSuccess();
     }
 
     public function test()

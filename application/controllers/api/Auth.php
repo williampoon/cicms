@@ -6,7 +6,7 @@ class Auth extends ApiController
 {
     public function login()
     {
-        return $this->success([
+        return $this->ajaxSuccess([
             'token' => 'aaa',
             'menus' => [
                 'path'      => '/auth',

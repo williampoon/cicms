@@ -13,7 +13,7 @@ class Node extends MyController
         $tree = array2tree($data);
         tree2array($tree, $nodes);
 
-        return $this->success($nodes);
+        return $this->ajaxSuccess($nodes);
     }
 
     public function add()
@@ -22,8 +22,8 @@ class Node extends MyController
 
         $rules = [
             [
-                'field' => 'pid', 
-                'rules' => 'required|integer', 
+                'field' => 'pid',
+                'rules' => 'required|integer',
                 'errors' => [
                     'required' => 'PID必填',
                 ],
@@ -52,7 +52,7 @@ class Node extends MyController
             return $this->error('添加失败，请稍后再试');
         }
 
-        return $this->success();
+        return $this->ajaxSuccess();
     }
 
     public function edit()
@@ -80,7 +80,7 @@ class Node extends MyController
         if (isset($input['pid']) && $input['pid'] == $id) {
             return $this->error('不能成为自己的父菜单');
         }
-        
+
         $model = model('Node');
         $data  = $model->fetchOne($id);
         if (!$data) {
@@ -96,6 +96,6 @@ class Node extends MyController
             return $this->error('更新失败，请稍后再试');
         }
 
-        return $this->success();
+        return $this->ajaxSuccess();
     }
 }
