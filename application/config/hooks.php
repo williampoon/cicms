@@ -11,3 +11,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
+
+$hook['post_controller'] = [
+    'class'    => 'PostSystem',
+    'function' => 'index',
+    'filename' => 'PostSystem.php',
+    'filepath' => 'hooks',
+    'params'   => ['beer', 'wine', 'snacks'],
+];
