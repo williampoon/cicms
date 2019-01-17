@@ -195,7 +195,7 @@ class CI_Security {
 
 		$this->charset = strtoupper(config_item('charset'));
 
-		log_message('info', 'Security Class Initialized');
+		// log_message('info', 'Security Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -249,7 +249,7 @@ class CI_Security {
 			$this->csrf_show_error();
 		}
 
-		log_message('info', 'CSRF token verified');
+		// log_message('info', 'CSRF token verified');
 		return $this;
 	}
 
@@ -280,7 +280,7 @@ class CI_Security {
 			$secure_cookie,
 			config_item('cookie_httponly')
 		);
-		log_message('info', 'CSRF cookie sent');
+		// log_message('info', 'CSRF cookie sent');
 
 		return $this;
 	}

@@ -399,7 +399,7 @@ class CI_Email {
 
 		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
-		log_message('info', 'Email Class Initialized');
+		// log_message('info', 'Email Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

@@ -159,7 +159,7 @@ class CI_Input {
 			$this->security->csrf_verify();
 		}
 
-		log_message('info', 'Input Class Initialized');
+		// log_message('info', 'Input Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -651,7 +651,7 @@ class CI_Input {
 		// Sanitize PHP_SELF
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
-		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
+		// log_message('debug', 'Global POST, GET and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------

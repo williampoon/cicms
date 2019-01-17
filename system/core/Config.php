@@ -110,7 +110,7 @@ class CI_Config {
 			$this->set_item('base_url', $base_url);
 		}
 
-		log_message('info', 'Config Class Initialized');
+		// log_message('info', 'Config Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -169,7 +169,7 @@ class CI_Config {
 				$this->is_loaded[] = $file_path;
 				$config = NULL;
 				$loaded = TRUE;
-				log_message('debug', 'Config file loaded: '.$file_path);
+				// log_message('debug', 'Config file loaded: '.$file_path);
 			}
 		}
 

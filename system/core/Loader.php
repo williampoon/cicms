@@ -138,7 +138,7 @@ class CI_Loader {
 		$this->_ci_ob_level = ob_get_level();
 		$this->_ci_classes =& is_loaded();
 
-		log_message('info', 'Loader Class Initialized');
+		// log_message('info', 'Loader Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -304,7 +304,7 @@ class CI_Loader {
 					throw new RuntimeException($app_path."Model.php exists, but doesn't declare class CI_Model");
 				}
 
-				log_message('info', 'CI_Model class loaded');
+				// log_message('info', 'CI_Model class loaded');
 			}
 			elseif ( ! class_exists('CI_Model', FALSE))
 			{
@@ -320,7 +320,7 @@ class CI_Loader {
 					throw new RuntimeException($app_path.$class.".php exists, but doesn't declare class ".$class);
 				}
 
-				log_message('info', config_item('subclass_prefix').'Model class loaded');
+				// log_message('info', config_item('subclass_prefix').'Model class loaded');
 			}
 		}
 
@@ -356,7 +356,7 @@ class CI_Loader {
 		$this->_ci_models[] = $name;
 		$model = new $model();
 		$CI->$name = $model;
-		log_message('info', 'Model "'.get_class($model).'" initialized');
+		// log_message('info', 'Model "'.get_class($model).'" initialized');
 		return $this;
 	}
 
@@ -627,7 +627,7 @@ class CI_Loader {
 
 				include_once($base_helper);
 				$this->_ci_helpers[$helper] = TRUE;
-				log_message('info', 'Helper loaded: '.$helper);
+				// log_message('info', 'Helper loaded: '.$helper);
 				continue;
 			}
 
@@ -639,7 +639,7 @@ class CI_Loader {
 					include_once($path.'helpers/'.$helper.'.php');
 
 					$this->_ci_helpers[$helper] = TRUE;
-					log_message('info', 'Helper loaded: '.$helper);
+					// log_message('info', 'Helper loaded: '.$helper);
 					break;
 				}
 			}
@@ -968,7 +968,7 @@ class CI_Loader {
 			include($_ci_path); // include() vs include_once() allows for multiple views with the same name
 		}
 
-		log_message('info', 'File loaded: '.$_ci_path);
+		// log_message('info', 'File loaded: '.$_ci_path);
 
 		// Return the file data if requested
 		if ($_ci_return === TRUE)
@@ -1056,7 +1056,7 @@ class CI_Loader {
 			$CI =& get_instance();
 			if (isset($CI->$property))
 			{
-				log_message('debug', $class.' class already loaded. Second attempt ignored.');
+				// log_message('debug', $class.' class already loaded. Second attempt ignored.');
 				return;
 			}
 

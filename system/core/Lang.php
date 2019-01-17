@@ -69,7 +69,7 @@ class CI_Lang {
 	 */
 	public function __construct()
 	{
-		log_message('info', 'Language Class Initialized');
+		// log_message('info', 'Language Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -155,7 +155,7 @@ class CI_Lang {
 
 		if ( ! isset($lang) OR ! is_array($lang))
 		{
-			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
+			// log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
 
 			if ($return === TRUE)
 			{
@@ -172,7 +172,7 @@ class CI_Lang {
 		$this->is_loaded[$langfile] = $idiom;
 		$this->language = array_merge($this->language, $lang);
 
-		log_message('info', 'Language file loaded: language/'.$idiom.'/'.$langfile);
+		// log_message('info', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;
 	}
 

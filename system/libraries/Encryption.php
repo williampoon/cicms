@@ -169,7 +169,7 @@ class CI_Encryption {
 			$this->_key = $key;
 		}
 
-		log_message('info', 'Encryption Class Initialized');
+		// log_message('info', 'Encryption Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -266,7 +266,7 @@ class CI_Encryption {
 
 			if ($this->_handle = mcrypt_module_open($this->_cipher, '', $this->_mode, ''))
 			{
-				log_message('info', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
+				// log_message('info', 'Encryption: MCrypt cipher '.strtoupper($this->_cipher).' initialized in '.strtoupper($this->_mode).' mode.');
 			}
 			else
 			{
@@ -320,7 +320,7 @@ class CI_Encryption {
 			else
 			{
 				$this->_handle = $handle;
-				log_message('info', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
+				// log_message('info', 'Encryption: OpenSSL initialized with method '.strtoupper($handle).'.');
 			}
 		}
 	}
