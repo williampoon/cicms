@@ -1,5 +1,7 @@
 <?php
 
+require_once APPCORE_PATH . 'CliController.php';
+
 class Socket extends CliController
 {
     public function server() {

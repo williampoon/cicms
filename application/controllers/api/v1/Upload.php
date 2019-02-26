@@ -1,5 +1,7 @@
 <?php
 
+require_once APPCORE_PATH . 'ApiController.php';
+
 class Upload extends ApiController
 {
     public function index()

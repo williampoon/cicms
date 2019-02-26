@@ -17,6 +17,8 @@ class MyController extends CI_Controller
     {
         parent::__construct();
 
+        $this->output->enable_profiler(true);
+
         $this->controller = strtolower($this->router->class);
         $this->action     = strtolower($this->router->method);
 

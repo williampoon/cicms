@@ -74,7 +74,7 @@ $active_group  = 'default';
 $query_builder = true;
 
 $db['default'] = [
-    'dsn'          => 'mysql:host=localhost;dbname=ci_cms',
+    'dsn'          => 'mysql:host=127.0.0.1;dbname=ci_cms',
     'hostname'     => '',
     'username'     => 'root',
     'password'     => 'root',
