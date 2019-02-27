@@ -23,7 +23,7 @@ class MyController extends CI_Controller
         $this->action     = strtolower($this->router->method);
 
         if (!$this->isAjax()) {
-            // $this->data['tree'] = Logic('Node')->menuTree();
+            $this->data['tree'] = Logic('Node')->menuTree();
         }
 
         // 缓存页面10分钟
