@@ -7,15 +7,14 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="<?=asset('/bootstrap/css/bootstrap.min.css')?>">
   <!-- Font Awesome -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"> -->
-  <!-- <link rel="stylesheet" href="/src/fonts/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <!-- <link rel="stylesheet" href="/src/css/AdminLTE.min.css"> -->
-  <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"> -->
-  <!-- <link rel="stylesheet" href="/src/css/skins/skin-black-light.min.css"> -->
+  <link rel="stylesheet" href="<?=asset('/dist/css/AdminLTE.min.css')?>">
+  <link rel="stylesheet" href="<?=asset('/dist/css/skins/skin-black-light.min.css')?>">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,7 +23,6 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   
-  <script src="<?=asset('/dist/vendor.js')?>"></script>
 </head>
 
 <body class="hold-transition skin-black-light sidebar-mini">
@@ -66,7 +64,7 @@
                     <a href="#">
                       <div class="pull-left">
                         <!-- User Image -->
-                        <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+                        <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                       </div>
                       <!-- Message title and timestamp -->
                       <h4>
@@ -150,14 +148,14 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="user-image" alt="User Image">
+              <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+                <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
                   Alexander Pierce - Web Developer
@@ -207,7 +205,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+          <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -233,7 +231,7 @@
         <?php if (is_array($tree)) {foreach ($tree as $node) {?>
         <li class="treeview">
           <a href="<?=empty($node['children']) ? $node['url'] : '#';?>">
-            <i class="<?=$node['icon'] ? $node['icon'] : 'fa fa-link';?>"></i> <span><?=$node['name'];?></span>
+            <i class="<?=$node['icon'];?>"></i> <span><?=$node['name'];?></span>
             <?php if (!empty($node['children'])) {?>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -254,7 +252,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <!-- <section class="content-header">
+    <section class="content-header">
       <h1>
         Page Header
         <small>Optional description</small>
@@ -263,7 +261,7 @@
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
         <li class="active">Here</li>
       </ol>
-    </section> -->
+    </section>
 
     <!-- Main content -->
     <section class="content">
@@ -397,15 +395,17 @@
 <script src="<?=asset('/plugins/jQuery/jquery-2.2.3.min.js')?>"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?=asset('/bootstrap/js/bootstrap.min.js')?>"></script>
-<script src="<?=asset('/src/js/common/config.js')?>"></script>
+<script src="<?=asset('/dist/js/config.js')?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=asset('/src/js/common/app.min.js')?>"></script>
-<!-- <script src="<?=asset('/dist/vendor.js')?>"></script> -->
-<!-- <script src="<?=asset('/dist/admin_index.js')?>"></script> -->
-<!-- <script src="<?=asset('/src/js/common/jquery.pjax.js')?>"></script> -->
+<script src="<?=asset('/dist/js/app.min.js')?>"></script>
+<script src="<?=asset('/dist/js/jquery.pjax.js')?>"></script>
+<!-- 
+<script src="<?=asset('/plugins/datatables/jquery.dataTables.min.js')?>"></script>
+<script src="<?=asset('/plugins/datatables/dataTables.bootstrap.min.js')?>"></script>
+<script src="<?=asset('/plugins/formvalidator/jquery.form-validator.min.js')?>"></script> -->
 <script type="text/javascript">
 $(function(){
-  // $(document).pjax('.sidebar-menu a', 'section[class="content"]')
+  $(document).pjax('.sidebar-menu a', 'section[class="content"]')
 });
 </script>
 

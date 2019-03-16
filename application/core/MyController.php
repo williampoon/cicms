@@ -24,6 +24,7 @@ class MyController extends CI_Controller
 
         if (!$this->isAjax()) {
             $this->data['tree'] = Logic('Node')->menuTree();
+            // var_dump($this->data['tree']);exit;
         }
 
         // 缓存页面10分钟
