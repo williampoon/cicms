@@ -122,7 +122,7 @@ class CI_Zip {
 		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
 		$this->now = time();
-		log_message('info', 'Zip Compression Class Initialized');
+		// log_message('info', 'Zip Compression Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

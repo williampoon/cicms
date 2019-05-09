@@ -111,6 +111,6 @@ class MyLog extends CI_Log
             'level'   => $level,
             'time'    => $date,
             'message' => $message,
-        ], JSON_UNESCAPED_UNICODE) . "\r\n";
+        ], JSON_UNESCAPED_UNICODE) . PHP_EOL;
     }
 }

@@ -402,7 +402,7 @@ class CI_Image_lib {
 		 */
 		ini_set('gd.jpeg_ignore_warning', 1);
 
-		log_message('info', 'Image Lib Class Initialized');
+		// log_message('info', 'Image Lib Class Initialized');
 	}
 
 	// --------------------------------------------------------------------

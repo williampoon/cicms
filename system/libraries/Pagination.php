@@ -344,7 +344,7 @@ class CI_Pagination {
 		isset($params['attributes']) OR $params['attributes'] = array();
 
 		$this->initialize($params);
-		log_message('info', 'Pagination Class Initialized');
+		// log_message('info', 'Pagination Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
