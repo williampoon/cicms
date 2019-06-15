@@ -22,4 +22,10 @@ class Http extends MyController
         var_dump($this->input->raw_input_stream);
         var_dump(file_get_contents('php://input'));
     }
+
+    public function curl() {
+        $service = new MyService();
+        $res = $service->get('http://dev.cicms.com/test/getUser');
+        var_dump('res');exit;
+    }
 }

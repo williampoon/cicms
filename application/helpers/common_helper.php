@@ -62,17 +62,14 @@ function library($library, $params = [])
 }
 
 /**
- * 创建helper实例
+ * 引入helper
  *
  * @param  string   $helper  helper名称
- * @return object
  */
 function helper($helper)
 {
     $CI = &get_instance();
     $CI->load->helper($helper);
-
-    return $CI->$helper;
 }
 
 function asset($file)
@@ -82,10 +79,15 @@ function asset($file)
         return $file;
     }
 
-    $hash   = substr(md5(filemtime($real_file)), 0, 16);
+    $hash   = substr(md5_file($real_file), 0, 16);
     $append = strpos($file, '?') === false ? "?_ms={$hash}" : '&_ms={$hash}';
 
-    return DS . trim($file, DS) . $append;
+    return trim($file, DS) . $append;
+}
+
+function url($url) {
+    helper('url');
+    return base_url($url);
 }
 
 /**
@@ -434,37 +436,6 @@ function node_name($node, $next_pid)
     } else {
         $res .= '  ├─ ';
     }
-
-    return $res;
-}
-
-function subtree($nodes)
-{
-    if (!is_array($nodes)) {
-        return '';
-    }
-
-    $res = '<ul class="treeview-menu" style="">';
-    foreach ($nodes as $node) {
-        $name     = $node['name'];
-        $url      = $node['url'];
-        $icon     = $node['icon'] ? $node['icon'] : 'fa fa-link';
-        $children = empty($node['children']) ? false : $node['children'];
-
-        if (!$children) {
-            $res .= '<li class="treeview"><a href="' . $url . '"><i class="' . $icon . '"></i> ' . $name . '</a></li>';
-        } else {
-            $res .= '<li class="treeview">'
-            . '<a href="#"><i class="' . $icon . '"></i> ' . $name
-            . '<span class="pull-right-container">'
-            . '<i class="fa fa-angle-left pull-right"></i>'
-            . '</span>'
-            . '</a>'
-            . subtree($children)
-                . '</li>';
-        }
-    }
-    $res .= '</ul>';
 
     return $res;
 }

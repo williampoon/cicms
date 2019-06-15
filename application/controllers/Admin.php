@@ -11,8 +11,15 @@ class Admin extends MyController
             'php'      => exec('php-fpm -v|head -1'),
         ];
 
+        $p_node         = current($this->data['tree']);
+        $top_nodes      = isset($p_node['children']) ? $p_node['children'] : [];
+        $first_top_node = current($top_nodes);
+        $left_nodes     = isset($first_top_node['children']) ? $first_top_node['children'] : [];
+
         return $this->display([
-            'info' => $info,
+            'info'       => $info,
+            'top_nodes'  => $top_nodes,
+            'left_nodes' => $left_nodes,
         ]);
     }
 
@@ -59,7 +66,7 @@ class Admin extends MyController
     {
         // exit('a');
         $test = library('unit_test');
-        $test->use_strict(TRUE);
+        $test->use_strict(true);
         // $this->load->library('unit_test');
         // var_dump($this->unit);exit;
         // $this->unit->run('1', 1, '类型测试');

@@ -77,7 +77,7 @@ $db['default'] = [
     'dsn'          => 'mysql:host=127.0.0.1;dbname=ci_cms',
     'hostname'     => '',
     'username'     => 'root',
-    'password'     => 'root',
+    'password'     => '',
     'database'     => '',
     'dbdriver'     => 'pdo',
     'dbprefix'     => '',

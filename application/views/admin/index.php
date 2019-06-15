@@ -1,4 +1,4 @@
-{extends file="admin_ajax"}
+{extends file="admin"}
 
 {block name="title"}首页{/block}
 

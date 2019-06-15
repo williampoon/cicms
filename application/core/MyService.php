@@ -5,55 +5,49 @@
  */
 class MyService
 {
-    protected $mh;
+    protected $serviceName = 'service';
+
     protected $timeout = 6;
-    protected $responses;
 
     protected $errCode = 0;
     protected $errMsg  = '';
+    protected $data    = [];
 
-    /**
-     * 魔术方法 __get
-     *
-     * 允许services像controllers那样来访问CI已加载的类
-     *
-     * @param   string  $key
-     */
-    public function __get($key)
+    public function get($url, $data = [], $options = [])
     {
-        return get_instance()->$key;
+        $mark = strpos($url, '?') === false ? '?' : '&';
+        $url  = rtrim($url, '/') . $mark . http_build_query($data);
+
+        $options[CURLOPT_CUSTOMREQUEST] = 'GET';
+
+        return $this->request($url, $options);
     }
 
-    public function __construct()
+    public function post($url, $data = [], $options = [])
     {
-        // 创建批处理cURL句柄
-        $this->mh = curl_multi_init();
+        $options[CURLOPT_CUSTOMREQUEST] = 'POST';
+        $options[CURLOPT_POSTFIELDS]    = $data;
+
+        return $this->request($url, $options);
     }
 
-    public function get($url, $options = [])
-    {
-        $ch      = curl_init($url);
-        $options = array_merge([
-            CURLOPT_RETURNTRANSFER => 1,
-        ], $options);
-        curl_setopt_array($ch, $options);
-
-        return $this->addUrl($ch);
-    }
-
-    // public function get() {}
-
-    public function post($url)
+    protected function request($url, $options = [])
     {
         // 初始化cURL会话
         $ch = curl_init($url);
 
         // 设置cURL选项
-        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-        if (strlen($url) > 5 && strtolower(substr($url, 0, 5)) == 'https') {
+        $default_options = [
+            CURLOPT_TIMEOUT        => $this->timeout,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_HEADER         => 1,
+            CURLINFO_HEADER_OUT    => 1,
+        ];
+        curl_setopt_array($ch, $default_options);
+        curl_setopt_array($ch, $options);
+
+        // 不校验https证书
+        if (strlen($url) > 5 && strtolower(substr($url, 0, 5)) === 'https') {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         }
@@ -65,17 +59,23 @@ class MyService
         if (curl_errno($ch)) {
             $this->errMsg = curl_errno($ch) . ': ' . curl_error($ch);
             return false;
-        } else {
-            $info      = curl_getinfo($ch);
-            $http_code = $info['http_code'];
-            if ($http_code != 200) {
-                $info['response'] = $response;
-                $this->log(json($info));
-                $response     = strip_tags($response);
-                $this->errMsg = "Upload failed, http code is {$http_code}, response is {$response}";
-                return false;
-            }
         }
+
+        // 请求上下文，响应头和响应体
+        $ctx                          = curl_getinfo($ch);
+        $http_code                    = $ctx['http_code'];
+        $ctx['request_body']          = array_get($options, CURLOPT_POSTFIELDS, '');
+        list($res_headers, $res_body) = explode("\r\n\r\n", $response);
+        $ctx['response_header']       = $res_headers;
+        $ctx['response_body']         = $http_code === 404 ? '' : $res_body;
+
+        // http状态码不是200
+        if ($http_code !== 200) {
+            $this->log('error', $ctx);
+            return false;
+        }
+
+        $this->log('info', $ctx);
 
         // 关闭cURL会话
         curl_close($ch);
@@ -83,23 +83,18 @@ class MyService
         return $response;
     }
 
-    // public function post($url, $options = []) {}
-
-    public function addUrl($ch)
-    {
-        return curl_multi_add_handle($this->mh, $ch);
-    }
-
     /**
      * 设置错误信息
      *
      * @param integer   $errCode    错误码
      * @param string    $errmsg     错误消息
+     * @param string    $data       数据
      */
-    public function setErrInfo($errCode, $errMsg)
+    protected function setErrInfo($errCode, $errMsg = '', $data = [])
     {
         $this->setErrCode($errCode);
         $this->setErrMsg($errMsg);
+        $this->setData($data);
     }
 
     /**
@@ -107,7 +102,7 @@ class MyService
      *
      * @param integer $errCode 错误码
      */
-    public function setErrCode($errCode = 0)
+    protected function setErrCode($errCode = 0)
     {
         $this->errCode = $errCode;
     }
@@ -117,9 +112,14 @@ class MyService
      *
      * @param string $errMsg 错误消息
      */
-    public function setErrMsg($errMsg = '')
+    protected function setErrMsg($errMsg = '')
     {
         $this->errMsg = $errMsg;
+    }
+
+    protected function setData($data = [])
+    {
+        $this->data = $data;
     }
 
     /**
@@ -142,8 +142,13 @@ class MyService
         return $this->errMsg;
     }
 
-    public function __destruct()
+    public function getData()
     {
-        curl_multi_close($this->mh);
+        return $this->data;
+    }
+
+    protected function log($level = 'error', $message = '')
+    {
+        log_message($level, $message, $this->serviceName);
     }
 }

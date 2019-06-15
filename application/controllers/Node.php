@@ -16,14 +16,37 @@ class Node extends MyController
         return $this->ajaxSuccess($nodes);
     }
 
+    public function leftMenu()
+    {
+        $pid = $this->get('pid');
+        if ($pid <= 0) {
+            echo '';
+            return ;
+        }
+        $all_nodes = logic('Node')->menuTree();
+        if (!isset(current($all_nodes)['children'])) {
+            echo '';
+            return ;
+        }
+        $top_nodes = current($all_nodes)['children'];
+        if (!isset($top_nodes[$pid]['children'])) {
+            echo '';
+            return ;
+        }
+
+        $left_nodes = $top_nodes[$pid]['children'];
+
+        $this->display(['left_nodes' => $left_nodes]);
+    }
+
     public function add()
     {
         $input = $this->post();
 
         $rules = [
             [
-                'field' => 'pid',
-                'rules' => 'required|integer',
+                'field'  => 'pid',
+                'rules'  => 'required|integer',
                 'errors' => [
                     'required' => 'PID必填',
                 ],
@@ -38,19 +61,21 @@ class Node extends MyController
         $validator->set_data($input);
         $validator->set_rules($rules);
         if (!$validator->run()) {
-            return $this->error(current($validator->error_array()));
+            return $this->ajaxError(current($validator->error_array()));
         }
 
         $model = model('Node');
         $data  = $model->where('url', $input['url'])->fetchOne();
         if ($data) {
-            return $this->error("URL: {$input['url']} 已经存在");
+            return $this->ajaxError("URL: {$input['url']} 已经存在");
         }
 
         $res = $model->insert($input);
         if (!$res) {
-            return $this->error('添加失败，请稍后再试');
+            return $this->ajaxError('添加失败，请稍后再试');
         }
+
+        logic('Node')->rmAllNodesCache();
 
         return $this->ajaxSuccess();
     }
@@ -72,29 +97,57 @@ class Node extends MyController
         $validator->set_data($input);
         $validator->set_rules($rules);
         if (!$validator->run()) {
-            return $this->error(current($validator->error_array()));
+            return $this->ajaxError(current($validator->error_array()));
         }
 
         $id = $input['id'];
         unset($input['id']);
         if (isset($input['pid']) && $input['pid'] == $id) {
-            return $this->error('不能成为自己的父菜单');
+            return $this->ajaxError('不能成为自己的父菜单');
         }
 
         $model = model('Node');
         $data  = $model->fetchOne($id);
         if (!$data) {
-            return $this->error('该菜单不存在');
+            return $this->ajaxError('该菜单不存在');
         }
         $data = $model->where(['id !=' => $id, 'url' => $input['url']])->fetchOne();
         if ($data) {
-            return $this->error("URL: {$input['url']} 已经存在");
+            return $this->ajaxError("URL: {$input['url']} 已经存在");
         }
 
         $res = $model->where('id', $id)->update($input);
         if (!$res) {
-            return $this->error('更新失败，请稍后再试');
+            return $this->ajaxError('更新失败，请稍后再试');
         }
+
+        logic('Node')->rmAllNodesCache();
+
+        return $this->ajaxSuccess();
+    }
+
+    public function del()
+    {
+        $id = intval($this->post('id'));
+        if ($id <= 0) {
+            return $this->ajaxError('无效ID');
+        }
+
+        $model = model('Node');
+        $node = $model->where(['id' => $id])->fetchOne();
+        if (!$node) {
+            return $this->ajaxError('菜单节点已删除');
+        }
+        $children = $model->where(['pid' => $id])->fetchOne();
+        if ($children) {
+            return $this->ajaxError('该菜单存在子菜单，无法删除');
+        }
+        $result = $model->where(['id' => $id])->delete();
+        if (!$result) {
+            return $this->ajaxError('删除失败，请稍后重试');
+        }
+
+        logic('Node')->rmAllNodesCache();
 
         return $this->ajaxSuccess();
     }

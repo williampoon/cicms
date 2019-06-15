@@ -7,15 +7,15 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="<?=asset('/bootstrap/css/bootstrap.min.css')?>">
   <!-- Font Awesome -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"> -->
-  <!-- <link rel="stylesheet" href="/src/fonts/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <!-- <link rel="stylesheet" href="/src/css/AdminLTE.min.css"> -->
+  <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
   <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"> -->
-  <!-- <link rel="stylesheet" href="/src/css/skins/skin-black-light.min.css"> -->
+  <link rel="stylesheet" href="/dist/css/skins/skin-black-light.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,7 +24,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   {block name="header"}{/block}
-  <script src="<?=asset('/dist/vendor.js')?>"></script>
+  <!-- <script src="<?=asset('/dist/vendor.js')?>"></script> -->
 </head>
 
 <body class="hold-transition skin-black-light sidebar-mini">
@@ -47,6 +47,11 @@
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
+      <?php if (isset($top_nodes) && is_array($top_nodes)) { foreach($top_nodes as $node) { ?>
+      <a class="top_node" style="float: left;padding: 15px 15px;border-right: 1px solid #eee;color: #333;" role="button" data-id="<?=$node['id']?>">
+        <span><?=$node['name']?></span>
+      </a>
+      <?php }} ?>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -66,7 +71,7 @@
                     <a href="#">
                       <div class="pull-left">
                         <!-- User Image -->
-                        <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+                        <img src="<?=asset('/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
                       </div>
                       <!-- Message title and timestamp -->
                       <h4>
@@ -150,14 +155,14 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="user-image" alt="User Image">
+              <img src="<?=asset('/dist/img/user2-160x160.jpg')?>" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+                <img src="<?=asset('/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
 
                 <p>
                   Alexander Pierce - Web Developer
@@ -207,17 +212,16 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?=asset('/src/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
+          <img src="<?=asset('/dist/img/user2-160x160.jpg')?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
-          <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
 
       <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
+      <!-- <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -225,26 +229,12 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form> -->
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
-        <?php if (is_array($tree)) {foreach ($tree as $node) {?>
-        <li class="treeview">
-          <a href="<?=empty($node['children']) ? $node['url'] : '#';?>">
-            <i class="<?=$node['icon'] ? $node['icon'] : 'fa fa-link';?>"></i> <span><?=$node['name'];?></span>
-            <?php if (!empty($node['children'])) {?>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-            <?php }?>
-          </a>
-          <?php if (!empty($node['children'])) {?>
-          <?=subtree($node['children']);?>
-          <?php }?>
-        </li>
-        <?php }}?>
+      <ul id="left-menu" class="sidebar-menu">
+        <?php if (isset($left_nodes) && is_array($left_nodes)) { echo logic('Node')->leftMenu($left_nodes); }?>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -371,16 +361,57 @@
 <script src="<?=asset('/plugins/jQuery/jquery-2.2.3.min.js')?>"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?=asset('/bootstrap/js/bootstrap.min.js')?>"></script>
-<script src="<?=asset('/src/js/common/config.js')?>"></script>
+<script src="<?=asset('/dist/js/config.js')?>"></script>
 <!-- AdminLTE App -->
-<script src="<?=asset('/src/js/common/app.min.js')?>"></script>
+<script src="<?=asset('/dist/js/app.min.js')?>"></script>
 <!-- <script src="<?=asset('/dist/vendor.js')?>"></script> -->
 <!-- <script src="<?=asset('/dist/admin_index.js')?>"></script> -->
 <!-- <script src="<?=asset('/src/js/common/jquery.pjax.js')?>"></script> -->
 <script type="text/javascript">
-$(function(){
+// $(function(){
+
+
+  $.ajaxSetup({
+    cache: true,
+  });
   // $(document).pjax('.sidebar-menu a', 'section[class="content"]')
-});
+
+  // 解析AJAX complete返回的结果
+  function parseAjaxComplete(xhr) {
+    // 网络错误
+    if (xhr.status == 0) {
+      alert('网络错误');
+      return false;
+    }
+    // 请求失败
+    else if (xhr.status != 200) {
+      alert(xhr.statusText);
+      return false;
+    }
+
+    var data = xhr.responseJSON;
+    // 自定义错误
+    if (!data || data.code != 0) {
+      alert(data.message);
+      return false;
+    }
+
+    return data.data;
+  }
+
+  // 切换左侧菜单
+  $('.top_node').click(function() {
+    let pid = $(this).data('id');
+    $.get('/node/leftMenu', {pid: pid}, function(result) {
+      if (!result) {
+        $('#left-menu').html('');
+      } else {
+        $('#left-menu').html(result);
+      }
+    });
+  });
+
+// });
 </script>
 {block name="footer"}{/block}
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
