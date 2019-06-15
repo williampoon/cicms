@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.100.40
-Source Server Version : 50722
-Source Host           : 192.168.100.40:3306
+Source Server         : 127.0.0.1
+Source Server Version : 50505
+Source Host           : 127.0.0.1:3306
 Source Database       : ci_cms
 
 Target Server Type    : MYSQL
-Target Server Version : 50722
+Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-02-11 11:53:57
+Date: 2019-06-15 08:18:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,20 +47,16 @@ CREATE TABLE `nodes` (
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0禁用，1启用）',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `url` (`url`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='节点表';
 
 -- ----------------------------
 -- Records of nodes
 -- ----------------------------
 INSERT INTO `nodes` VALUES ('1', '0', '根节点', '/', '', '0', '', '1', '2018-11-03 22:39:04', '2018-11-03 22:39:04');
-INSERT INTO `nodes` VALUES ('2', '1', '首页', '/admin/index', 'fa fa-dashboard', '0', '', '1', null, '2018-11-04 09:39:31');
+INSERT INTO `nodes` VALUES ('2', '1', '我的', '/admin/index', 'fa fa-dashboard', '0', '', '1', null, '2018-11-04 09:39:31');
 INSERT INTO `nodes` VALUES ('3', '1', '系统', '/node/aaa', 'fa fa-desktop', '0', '', '1', null, null);
 INSERT INTO `nodes` VALUES ('4', '3', '菜单管理', '/node/index', 'fa fa-bars', '1', 'c1', '1', null, null);
-INSERT INTO `nodes` VALUES ('5', '4', '子菜单管理2', '/menu/submenu2', '', '2', 'c2', '1', null, null);
-INSERT INTO `nodes` VALUES ('6', '4', '子3', '/menu/submenu3', 'fa fa-link', '10', 'c3', '1', null, null);
-INSERT INTO `nodes` VALUES ('7', '6', '子31', '/menu/submenu3/ss1?aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffffffffffffffffffffffffffffffffffffffgggggggggggggggg', 'fa fa-link', '0', '', '1', null, null);
 INSERT INTO `nodes` VALUES ('8', '3', '系统管理', '/system/index', '', '0', '', '1', null, null);
 INSERT INTO `nodes` VALUES ('9', '8', '服务器状态', '/system/status', '', '2', '', '1', null, null);
 INSERT INTO `nodes` VALUES ('10', '1', '营销', '/marketing', '', '0', '', '1', null, null);
@@ -74,25 +70,11 @@ CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
+  KEY `password_resets_email_index` (`email`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of password_resets
--- ----------------------------
-
--- ----------------------------
--- Table structure for role_node
--- ----------------------------
-DROP TABLE IF EXISTS `role_node`;
-CREATE TABLE `role_node` (
-  `role_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
-  `node_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '节点ID',
-  PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色节点表';
-
--- ----------------------------
--- Records of role_node
 -- ----------------------------
 
 -- ----------------------------
@@ -111,6 +93,20 @@ CREATE TABLE `roles` (
 
 -- ----------------------------
 -- Records of roles
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for role_node
+-- ----------------------------
+DROP TABLE IF EXISTS `role_node`;
+CREATE TABLE `role_node` (
+  `role_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
+  `node_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '节点ID',
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色节点表';
+
+-- ----------------------------
+-- Records of role_node
 -- ----------------------------
 
 -- ----------------------------
@@ -147,9 +143,6 @@ CREATE TABLE `user_role` (
 -- Records of user_role
 -- ----------------------------
 
--- ----------------------------
--- Table structure for users
--- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -164,13 +157,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ----------------------------
--- Records of users
--- ----------------------------
 
--- ----------------------------
--- Table structure for users_bak
--- ----------------------------
 DROP TABLE IF EXISTS `users_bak`;
 CREATE TABLE `users_bak` (
   `id` int(11) NOT NULL,
@@ -187,6 +174,3 @@ CREATE TABLE `users_bak` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
--- ----------------------------
--- Records of users_bak
--- ----------------------------
